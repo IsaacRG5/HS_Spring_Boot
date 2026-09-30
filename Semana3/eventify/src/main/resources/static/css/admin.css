@@ -1,0 +1,289 @@
+/* ============================================================
+   Eventify — Panel Administrativo
+   Concepto: "libro de control de boletería" — tipografía de cartel
+   para los titulos, tabla como listado de control, y un borde
+   punteado (perforación de boleto) que marca las tarjetas clave.
+   ============================================================ */
+
+:root {
+  --ink: #1c2541;
+  --ink-soft: #384463;
+  --paper: #eef1f6;
+  --surface: #ffffff;
+  --border: #d8dce3;
+  --gold: #c99a2e;
+  --gold-dark: #a67e20;
+  --success: #2f7d5b;
+  --success-bg: #e6f4ee;
+  --error: #b4453d;
+  --error-bg: #fbeae8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+h1, h2, h3 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  margin: 0 0 0.3em;
+  color: var(--ink);
+}
+
+a {
+  color: var(--gold-dark);
+}
+
+/* --- Barra superior --- */
+.topbar {
+  background: var(--ink);
+  color: #f4f5f8;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.topbar .brand {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.topbar .brand span {
+  color: var(--gold);
+}
+
+.topbar nav a {
+  color: #cfd4e2;
+  text-decoration: none;
+  margin-left: 1.75rem;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.topbar nav a:hover,
+.topbar nav a.active {
+  color: #ffffff;
+  border-bottom-color: var(--gold);
+}
+
+/* --- Contenido --- */
+main {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+.page-header {
+  margin-bottom: 1.75rem;
+}
+
+.page-header p {
+  color: var(--ink-soft);
+  max-width: 60ch;
+}
+
+/* --- Tarjetas de resumen (dashboard) --- */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.25rem 1.4rem;
+}
+
+.summary-card .count {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--ink);
+  display: block;
+}
+
+.summary-card .label {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.summary-card a {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: var(--gold-dark);
+}
+
+/* --- Mensajes flash --- */
+.flash {
+  border-radius: 6px;
+  padding: 0.85rem 1.1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.flash.success {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid #bfe3d2;
+}
+
+.flash.error {
+  background: var(--error-bg);
+  color: var(--error);
+  border: 1px solid #f0c6c2;
+}
+
+/* --- Formulario (tarjeta con "linea de corte" de boleto) --- */
+.ticket-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.6rem 1.6rem 1.4rem;
+  margin-bottom: 2.25rem;
+  position: relative;
+}
+
+.ticket-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 1.6rem;
+  right: 1.6rem;
+  border-top: 2px dashed var(--border);
+}
+
+.ticket-card h2 {
+  font-size: 1.15rem;
+  margin-bottom: 1rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.9rem 1rem;
+  align-items: end;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.field label {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.field input,
+.field textarea {
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.55rem 0.65rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: #fdfdfe;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 2.4rem;
+}
+
+.field.full {
+  grid-column: 1 / -1;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  border-radius: 5px;
+  padding: 0.6rem 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.15s ease;
+}
+
+.btn-primary:hover {
+  background: var(--gold-dark);
+  color: #ffffff;
+}
+
+/* --- Tabla de catalogo --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+thead {
+  background: var(--ink);
+}
+
+thead th {
+  color: #f0f1f6;
+  text-align: left;
+  font-weight: 500;
+  padding: 0.7rem 1rem;
+  font-size: 0.88rem;
+}
+
+tbody td {
+  padding: 0.65rem 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.93rem;
+}
+
+tbody tr:hover {
+  background: #f6f7fb;
+}
+
+td.actions a {
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: var(--error);
+}
+
+/* --- Estado vacio --- */
+.empty-state {
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.empty-state strong {
+  display: block;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.15rem;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}

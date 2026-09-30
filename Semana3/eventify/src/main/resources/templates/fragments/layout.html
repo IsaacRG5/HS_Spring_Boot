@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--
+        Fragmento reutilizable: barra superior (topbar) con la marca
+        y la navegacion del panel. Se incluye con th:replace en cada
+        vista via th:fragment="topbar(active)".
+    -->
+</head>
+<body>
+    <header class="topbar" th:fragment="topbar(active)">
+        <a class="brand" th:href="@{/admin}">Event<span>ify</span></a>
+        <nav>
+            <a th:href="@{/admin}" th:classappend="${active == 'panel'} ? 'active'">Panel</a>
+            <a th:href="@{/admin/events}" th:classappend="${active == 'events'} ? 'active'">Eventos</a>
+            <a th:href="@{/admin/venues}" th:classappend="${active == 'venues'} ? 'active'">Lugares</a>
+        </nav>
+    </header>
+</body>
+</html>

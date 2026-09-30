@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lugares — Eventify</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+
+<header class="topbar" th:replace="~{fragments/layout :: topbar('venues')}"></header>
+
+<main>
+    <div class="page-header">
+        <h1>Lugares</h1>
+        <p>Registra un nuevo lugar (venue) y consulta el inventario disponible para los eventos.</p>
+    </div>
+
+    <!-- Mensajes de confirmacion / error (Post-Redirect-Get con flash attributes) -->
+    <div class="flash success" th:if="${successMessage}" th:text="${successMessage}"></div>
+    <div class="flash error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+    <!-- Formulario de registro: th:action + th:object + th:field -->
+    <section class="ticket-card">
+        <h2>Registrar nuevo lugar</h2>
+        <form th:action="@{/admin/venues}" th:object="${venue}" method="post">
+            <div class="form-grid">
+                <div class="field">
+                    <label for="name">Nombre del lugar</label>
+                    <input type="text" id="name" th:field="*{name}" placeholder="Ej. Teatro Amira de la Rosa" required>
+                </div>
+                <div class="field">
+                    <label for="address">Dirección</label>
+                    <input type="text" id="address" th:field="*{address}" placeholder="Ej. Paseo Bolívar, Barranquilla" required>
+                </div>
+                <div class="field">
+                    <label for="capacity">Capacidad</label>
+                    <input type="number" id="capacity" th:field="*{capacity}" min="1" placeholder="Ej. 800" required>
+                </div>
+                <div class="field">
+                    <button type="submit" class="btn-primary">Guardar lugar</button>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <!-- Escenario 2: catalogo vacio -->
+    <div class="empty-state" th:if="${#lists.isEmpty(venues)}">
+        <strong>Actualmente no hay lugares registrados</strong>
+        Registra el primero usando el formulario de arriba.
+    </div>
+
+    <!-- Escenario 1: tabla con el listado completo -->
+    <table th:unless="${#lists.isEmpty(venues)}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Capacidad</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="v : ${venues}">
+            <td th:text="${v.id}">1</td>
+            <td th:text="${v.name}">Nombre del lugar</td>
+            <td th:text="${v.address}">Dirección</td>
+            <td th:text="${v.capacity}">100</td>
+            <td class="actions">
+                <a th:href="@{/admin/venues/delete/{id}(id=${v.id})}"
+                   onclick="return confirm('¿Eliminar este lugar?');">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+</body>
+</html>

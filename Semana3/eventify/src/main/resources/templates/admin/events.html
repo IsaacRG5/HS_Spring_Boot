@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Eventos — Eventify</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+
+<header class="topbar" th:replace="~{fragments/layout :: topbar('events')}"></header>
+
+<main>
+    <div class="page-header">
+        <h1>Eventos</h1>
+        <p>Registra un nuevo evento y consulta el catálogo completo, tal como lo verán los coordinadores.</p>
+    </div>
+
+    <!-- Mensajes de confirmacion / error (Post-Redirect-Get con flash attributes) -->
+    <div class="flash success" th:if="${successMessage}" th:text="${successMessage}"></div>
+    <div class="flash error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+    <!-- Formulario de registro: th:action + th:object + th:field -->
+    <section class="ticket-card">
+        <h2>Registrar nuevo evento</h2>
+        <form th:action="@{/admin/events}" th:object="${event}" method="post">
+            <div class="form-grid">
+                <div class="field">
+                    <label for="name">Nombre del evento</label>
+                    <input type="text" id="name" th:field="*{name}" placeholder="Ej. Feria Tech 2026" required>
+                </div>
+                <div class="field">
+                    <label for="date">Fecha</label>
+                    <input type="date" id="date" th:field="*{date}" required>
+                </div>
+                <div class="field full">
+                    <label for="description">Descripción</label>
+                    <textarea id="description" th:field="*{description}" placeholder="Breve descripcion del evento"></textarea>
+                </div>
+                <div class="field">
+                    <button type="submit" class="btn-primary">Guardar evento</button>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <!-- Escenario 2: catalogo vacio -->
+    <div class="empty-state" th:if="${#lists.isEmpty(events)}">
+        <strong>Actualmente no hay eventos programados</strong>
+        Registra el primero usando el formulario de arriba.
+    </div>
+
+    <!-- Escenario 1: tabla con el listado completo -->
+    <table th:unless="${#lists.isEmpty(events)}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Fecha</th>
+            <th>Descripción</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ev : ${events}">
+            <td th:text="${ev.id}">1</td>
+            <td th:text="${ev.name}">Nombre del evento</td>
+            <td th:text="${#temporals.format(ev.date, 'dd/MM/yyyy')}">01/01/2026</td>
+            <td th:text="${ev.description}">Descripción</td>
+            <td class="actions">
+                <a th:href="@{/admin/events/delete/{id}(id=${ev.id})}"
+                   onclick="return confirm('¿Eliminar este evento?');">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+</body>
+</html>

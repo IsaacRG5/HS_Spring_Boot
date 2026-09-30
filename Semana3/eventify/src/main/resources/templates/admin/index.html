@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Panel administrativo — Eventify</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+
+<header class="topbar" th:replace="~{fragments/layout :: topbar('panel')}"></header>
+
+<main>
+    <div class="page-header">
+        <h1>Panel administrativo</h1>
+        <p>Vista general del catálogo de Eventify. Desde aquí puedes ir al listado de eventos o al de lugares para registrar y revisar la oferta disponible.</p>
+    </div>
+
+    <section class="summary-grid">
+        <div class="summary-card">
+            <span class="count" th:text="${totalEvents}">0</span>
+            <span class="label">Eventos registrados</span>
+            <a th:href="@{/admin/events}">Ver listado de eventos &rarr;</a>
+        </div>
+        <div class="summary-card">
+            <span class="count" th:text="${totalVenues}">0</span>
+            <span class="label">Lugares registrados</span>
+            <a th:href="@{/admin/venues}">Ver listado de lugares &rarr;</a>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>
